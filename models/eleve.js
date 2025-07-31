@@ -20,7 +20,6 @@ var eleveSchemas = new Schemas({
         type: String,
         minLenght: 2,
         maxLehgtn: 15,
-        required: true,
         trim: true
     },
     idenfient: {
