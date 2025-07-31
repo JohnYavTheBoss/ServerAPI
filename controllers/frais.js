@@ -4,9 +4,7 @@ const ObjectId = require("mongoose").Types.ObjectId;
 
 module.exports.getAllfrais = async (request, response) => {
   try {
-    await FraisModel.find({
-      $and: [{ statut: "ajouté" }, { statut: "modifié" }],
-    })
+    await FraisModel.find()
       .select()
       .sort({ createdAt: -1 })
       .then((data) => {
