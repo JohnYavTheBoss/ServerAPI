@@ -37,23 +37,34 @@ module.exports.getAllPayement = async (request, response) => {
 };
 
 module.exports.addPayement = async (request, response) => {
-  let { idEleve, eleve, frais, montant, anneScolaire, telephone } =
+  let { idEleve, eleve, frais, montant, currency, classe, anneScolaire, telephone,  } =
     request.body;
   let contenu = `nouveau paiement pour le frais ${frais} par l'eleve ${eleve} vient d'etre effectue`;
-  console.log(CINETPAY_BASE_URL);
+
 
   try {
-    const payement = await axios.post(`${CINETPAY_BASE_URL}/init`, {
-      apikey: CINETPAY_API_KEY,
-      site_id: CINETPAY_SITE_ID,
-      transaction_id: TRANSACTION_ID,
-      amount: montant,
-      currency: "CDF",
-      description: contenu,
-      customer_phone_number: telephone,
-      channels: "MOBILE_MONEY",
-    });
-    response.status(200).json(payement.data);
+    (await PaiementModel.create({
+      idEleve,
+      eleve,
+      frais,
+      montant,
+      currency,
+      classe,
+      anneScolaire,
+      telephone,
+
+    })).then(async (data) => {
+      if (data){
+        await NotificationModel.create({
+          contenu,
+          recepteur: "comptable",
+          motif: "nouveau paiement",
+        }).then((data) => {
+          return response.status(200).json(data);
+        })
+      }
+    })
+   
   } catch (error) {
     response.json({ error: error.message });
     console.log(error.message);

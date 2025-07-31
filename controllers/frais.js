@@ -17,13 +17,14 @@ module.exports.getAllfrais = async (request, response) => {
   }
 };
 module.exports.addFrais = async (request, response) => {
-  let { design, montant, anneScolaire, image } = request.body;
+  let { designation, montant, anneScolaire, image, currency } = request.body;
   let contenu = `un nouveau frais a  paye`;
   try {
     (
       await FraisModel.create({
-        designation: design,
+        designation: designation,
         montant: montant,
+        currency: currency,
         anneScolaire: anneScolaire,
         catalogue: image,
       })
@@ -77,9 +78,10 @@ module.exports.updateFrais = async (request, response) => {
           $set: {
             designation: request.body.design,
             montant: request.body.montant,
+            currency: request.body.currency,
             anneScolaire: request.body.anneScolaire,
             catalogue: request.body.image,
-            statut: ["modifié"],
+            statut: "modifié",
           },
         },
         { new: true, upsert: true }

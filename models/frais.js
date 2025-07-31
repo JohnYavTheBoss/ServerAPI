@@ -4,12 +4,12 @@ const Schemas = mongoose.Schema;
 const fraisSchemas = new Schemas({
     designation: {
         type: String,
-        required: true,
     },
     montant: {
         type: String,
         required: true
     },
+    currency: String,
     anneScolaire: {
         type: String,
         required: true
