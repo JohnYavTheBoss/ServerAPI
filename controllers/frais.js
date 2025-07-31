@@ -17,7 +17,7 @@ module.exports.getAllfrais = async (request, response) => {
   }
 };
 module.exports.addFrais = async (request, response) => {
-  let { design, montant, anneScolaire } = request.body;
+  let { design, montant, anneScolaire, image } = request.body;
   let contenu = `un nouveau frais a  paye`;
   try {
     (
@@ -25,7 +25,7 @@ module.exports.addFrais = async (request, response) => {
         designation: design,
         montant: montant,
         anneScolaire: anneScolaire,
-        statut: ["ajouté"],
+        catalogue: image,
       })
     )
       .save()
@@ -78,6 +78,7 @@ module.exports.updateFrais = async (request, response) => {
             designation: request.body.design,
             montant: request.body.montant,
             anneScolaire: request.body.anneScolaire,
+            catalogue: request.body.image,
             statut: ["modifié"],
           },
         },

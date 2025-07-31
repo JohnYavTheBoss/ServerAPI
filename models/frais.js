@@ -14,6 +14,7 @@ const fraisSchemas = new Schemas({
         type: String,
         required: true
     },
+    catalogue: String,
     dateAjout: {
         type: Date,
         default: new Date().getFullYear()
