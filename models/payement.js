@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const Schemas = mongoose.Schema;
 
-var paiementSchemas = new Schemas({
-    numero: {
+const paiementSchemas = new Schemas({
+   numero: {
         type: String
     },
     idEleve: {
@@ -27,17 +27,20 @@ var paiementSchemas = new Schemas({
         type: Date,
         default: new Date().getDate()
     },
-    statut: [
-        'payé',
-        'non payé'
-    ],
-    approbation: [
-        'apprové',
-        'non approuvé'
-    ]
+    statut: {
+        type: String,
+        default: "Payé",
+        enums: ["Payé", "En attente", "Annulé", "Nom Payé"]
+    },
+    
+    approbation: {
+        type: String,
+        default: "En attente",
+        enums: ["En attente", "Approuvé", "Non approuvé", "Rejet"]
+    }
 },{
     timestamps: true
-})
+});
 
-const PaiementModel = mongoose.model("Paiement", paiementSchemas);
+const PaiementModel = mongoose.model("paiement", paiementSchemas);
 module.exports = PaiementModel;

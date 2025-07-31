@@ -1,6 +1,6 @@
 const NotificationModel = require("../models/notification");
 const PaiementModel = require("../models/payement");
-const axios = require('axios')
+const axios = require("axios");
 const { v4: uuidv4 } = require("uuid");
 
 const uid = uuidv4(); // Generates a UUID (v4)
@@ -25,16 +25,14 @@ module.exports.getPayement = async (request, response) => {
 };
 
 module.exports.getAllPayement = async (request, response) => {
-  try {
-    await PaiementModel.find().then((data) => {
-      if (data) return response.status(200).json(data);
-      else
-        return responese
-          .status(400)
-          .json({ erreurMessage: "aucune donnee trouvee" });
-    });
+    try {
+    await PaiementModel.find()
+      .sort({ createdAt: -1 })
+      .then((data) => {
+        if (data) return response.status(200).json(data);
+      });
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 };
 
@@ -43,7 +41,7 @@ module.exports.addPayement = async (request, response) => {
     request.body;
   let contenu = `nouveau paiement pour le frais ${frais} par l'eleve ${eleve} vient d'etre effectue`;
   console.log(CINETPAY_BASE_URL);
-  
+
   try {
     const payement = await axios.post(`${CINETPAY_BASE_URL}/init`, {
       apikey: CINETPAY_API_KEY,
@@ -59,6 +57,5 @@ module.exports.addPayement = async (request, response) => {
   } catch (error) {
     response.json({ error: error.message });
     console.log(error.message);
-    
   }
 };

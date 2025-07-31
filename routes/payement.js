@@ -4,7 +4,7 @@ const {getAllPayement, addPayement, getPayement} = require('../controllers/payem
 const router = Router();
 
 router.get('/payement/:id', getPayement);
-router.get('/payement/all', getAllPayement);
+router.get("/payement/", getAllPayement);
 router.post('/payement/add', addPayement);
 
 module.exports = router;
