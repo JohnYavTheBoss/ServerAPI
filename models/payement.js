@@ -11,7 +11,7 @@ const paiementSchemas = new Schemas({
     eleve: {
         type: String
     },
-    class : String,
+    classe: String,
     idFrais: {
         type: String
     },
@@ -38,8 +38,8 @@ const paiementSchemas = new Schemas({
     
     approbation: {
         type: String,
-        default: "En attente",
-        enums: ["En attente", "Approuvé", "Non approuvé", "Rejet"]
+        default: "En attente d'approbation",
+        enums: ["En attente d'approbation", "Approuvé", "Non approuvé", "Rejet"]
     }
 },{
     timestamps: true
