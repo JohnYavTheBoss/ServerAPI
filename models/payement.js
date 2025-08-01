@@ -11,6 +11,7 @@ const paiementSchemas = new Schemas({
     eleve: {
         type: String
     },
+    class : String,
     idFrais: {
         type: String
     },
@@ -20,6 +21,8 @@ const paiementSchemas = new Schemas({
     montant: {
         type: String
     },
+    currency: String,
+    telephone: String,
     anneScolaire: {
         type: String
     },
