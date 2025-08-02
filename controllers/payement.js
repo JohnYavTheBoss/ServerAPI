@@ -1,14 +1,8 @@
 const NotificationModel = require("../models/notification");
 const PaiementModel = require("../models/payement");
-const axios = require("axios");
 const { v4: uuidv4 } = require("uuid");
 
 const uid = uuidv4(); // Generates a UUID (v4)
-
-const TRANSACTION_ID = uid;
-const CINETPAY_API_KEY = "12228706686864cee2444463.99011606";
-const CINETPAY_SITE_ID = "105900531";
-const CINETPAY_BASE_URL = "https://api-checkout.cinetpay.com/v2/payment";
 
 module.exports.getPayement = async (request, response) => {
   try {
@@ -25,7 +19,7 @@ module.exports.getPayement = async (request, response) => {
 };
 
 module.exports.getAllPayement = async (request, response) => {
-    try {
+  try {
     await PaiementModel.find()
       .sort({ createdAt: -1 })
       .then((data) => {
@@ -37,36 +31,79 @@ module.exports.getAllPayement = async (request, response) => {
 };
 
 module.exports.addPayement = async (request, response) => {
-  let { idEleve, eleve, frais, montant, currency, classe, anneScolaire, telephone,  } =
-    request.body;
+  let {
+    idEleve,
+    eleve,
+    frais,
+    montant,
+    currency,
+    classe,
+    anneScolaire,
+    telephone,
+  } = request.body;
   let contenu = `nouveau paiement pour le frais ${frais} par l'eleve ${eleve} vient d'etre effectue`;
 
-
   try {
-    (await PaiementModel.create({
-      idEleve,
-      eleve,
-      frais,
-      montant,
-      currency,
-      classe,
-      anneScolaire,
-      telephone,
-
-    })).then(async (data) => {
-      if (data){
+    (
+      await PaiementModel.create({
+        idEleve,
+        eleve,
+        frais,
+        montant,
+        currency,
+        classe,
+        anneScolaire,
+        telephone,
+      })
+    ).then(async (data) => {
+      if (data) {
         await NotificationModel.create({
           contenu,
           recepteur: "comptable",
           motif: "nouveau paiement",
         }).then((data) => {
           return response.status(200).json(data);
-        })
+        });
       }
-    })
-   
+    });
   } catch (error) {
     response.json({ error: error.message });
     console.log(error.message);
+  }
+};
+
+module.exports.approuverPayement = async (request, response) => {
+
+  try {
+    PaiementModel.findByIdAndUpdate(
+      { _id: request.params.idPayement },
+      {
+        $set: {
+          approbation: request.body.approbation,
+        },
+      },
+      { new: true, upsert: true }
+    ).then((data) => {
+      if (data) return response.status(200).json(data);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+module.exports.rejeterPayement = async (request, response) => {
+  try {
+    PaiementModel.findByIdAndUpdate(
+      { _id: request.params.idPayement },
+      {
+        $set: {
+          approbation: request.body.approbation,
+        },
+      },
+      { new: true, upsert: true }
+    ).then((data) => {
+      if (data) return response.status(200).json(data);
+    });
+  } catch (error) {
+    console.log(error);
   }
 };
