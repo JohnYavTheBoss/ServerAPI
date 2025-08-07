@@ -41,10 +41,9 @@ module.exports.addPayement = async (request, response) => {
     anneScolaire,
     telephone,
   } = request.body;
-  let contenu = `nouveau paiement pour le frais ${frais} par l'eleve ${eleve} vient d'etre effectue`;
+  let contenu = `nouveau paiement pour le ${frais} par l'eleve ${eleve} vient d'etre effectue`;
 
   try {
-    (
       await PaiementModel.create({
         idEleve,
         eleve,
@@ -55,7 +54,7 @@ module.exports.addPayement = async (request, response) => {
         anneScolaire,
         telephone,
       })
-    ).then(async (data) => {
+    .then(async (data) => {
       if (data) {
         await NotificationModel.create({
           contenu,
