@@ -14,11 +14,12 @@ const notificationRoute = require('./routes/notification');
 
 
 
-
-
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // Origine du site web en local
+  credentials: true
+}));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));

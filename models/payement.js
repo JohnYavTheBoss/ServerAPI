@@ -26,6 +26,8 @@ const paiementSchemas = new Schemas({
     anneScolaire: {
         type: String
     },
+    mois: String,
+    tranche: String,
     datePaiement: {
         type: Date,
         default: new Date().getDate()

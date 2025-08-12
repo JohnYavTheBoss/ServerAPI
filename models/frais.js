@@ -14,6 +14,9 @@ const fraisSchemas = new Schemas({
         type: String,
         required: true
     },
+    mois: String,
+    tranches: String,
+    classeDetermined: String,
     catalogue: String,
     dateAjout: {
         type: Date,
