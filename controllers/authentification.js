@@ -7,7 +7,7 @@ const TOKEN_SECRET =
   "kjdbck3WEOFUHSOFDUHSDSJ0998765554433221234567KJBKBKBKHHHhjhbksdbcvksbk";
 const createToken = (id) => {
   return jwt.sign({ id }, TOKEN_SECRET, {
-    expiresIn: 365 * 24 * 60 * 60 * 1000,
+    expiresIn: 1 * 24 * 60 * 60 * 1000,
   });
 };
 
